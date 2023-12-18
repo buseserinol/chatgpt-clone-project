@@ -91,6 +91,7 @@ body {
 }
 span.material-symbols-outlined {
   cursor: pointer;
+  z-index: 1000;
 }
 .typing-animation {
   display: inline-flex;
@@ -147,7 +148,7 @@ span.material-symbols-outlined {
   border-radius: 4px;
   max-height: 250px;
   overflow-y: auto;
-  resize: none;
+  resize: none; 
   padding: 15px 25px 15px 20px;
   color: var(--text-color);
   background: var(--incoming-chat-bg);
@@ -195,3 +196,4 @@ span.material-symbols-outlined {
   text-align: center;
   color: var(--text-color);
 }
+
