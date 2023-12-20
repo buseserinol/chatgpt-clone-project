@@ -5,7 +5,7 @@ const themeButton = document.querySelector("#theme-btn");
 const deleteButton = document.querySelector("#delete-btn");
 let userText = null;
 
-const API_KEY = "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";
+const API_KEY = "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";
 const initialHeight = chatInput.scrollHeight;
 
 //sayfa yüklendiğinde yerel depodan(local storage) veri yükler.
