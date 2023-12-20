@@ -5,7 +5,7 @@ const themeButton = document.querySelector("#theme-btn");
 const deleteButton = document.querySelector("#delete-btn");
 let userText = null;
 
-const API_KEY = "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";
+const API_KEY = "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";
 const initialHeight = chatInput.scrollHeight;
 
 //sayfa yüklendiğinde yerel depodan(local storage) veri yükler.
@@ -29,7 +29,6 @@ const loadDataFromLocalStorage = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
 };
 
-
 loadDataFromLocalStorage();
 
 const createElement = (html, className) => {
@@ -40,7 +39,7 @@ const createElement = (html, className) => {
 };
 
 const getChatResponse = async (incomingChatDiv) => {
-  const API_URL = "https://api.openai.com/v1/completions";
+  const API_URL = "https://api.openai.com/v1/completions"
   const pElement = document.createElement("p");
   const requestOptions = {
     method: "POST",
