@@ -10,22 +10,25 @@ const initialHeight = chatInput.scrollHeight;
 
 //sayfa yüklendiğinde yerel depodan(local storage) veri yükler.
 const loadDataFromLocalStorage = () => {
-  // tema rengi, geçerli temayı uygular.
   const themeColor = localStorage.getItem("theme-color");
-  document.body.classList.toggle("light-mode", themeColor === "light_mode");
-  // tema rengini yerel depoda günceller
-  localStorage.setItem("theme-color", themeButton.innerText);
-  themeButton.innerText = document.body.classList.contains("light-mode")
-    ? "dark_mode"
-    : "light_mode";
+
+  if (themeColor) {
+    document.body.classList.toggle("light-mode", themeColor === "light_mode");
+    themeButton.innerText = themeColor;
+  } else {
+    // Tema rengi belirtilmemişse, varsayılan olarak dark_mode kullanılabilir.
+    document.body.classList.add("light-mode");
+    themeButton.innerText = "dark_mode";
+  }
+
   const defaultText = `
     <div class="default-text">
     <h1> ChatGPT Clone </h1>
     </div>`;
   chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
-  //sayfayı sohbetin en altına kaydırır.
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
 };
+
 
 loadDataFromLocalStorage();
 
