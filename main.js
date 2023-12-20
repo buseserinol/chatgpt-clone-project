@@ -2,10 +2,32 @@ const chatInput = document.querySelector("#chat-input");
 const sendButton = document.querySelector("#send-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
-console.log(themeButton);
+const deleteButton = document.querySelector("#delete-btn");
 let userText = null;
 
-const API_KEY = "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";
+const API_KEY = "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";
+const initialHeight = chatInput.scrollHeight;
+
+//sayfa yüklendiğinde yerel depodan(local storage) veri yükler.
+const loadDataFromLocalStorage = () => {
+  // tema rengi, geçerli temayı uygular.
+  const themeColor = localStorage.getItem("theme-color");
+  document.body.classList.toggle("light-mode", themeColor === "light_mode");
+  // tema rengini yerel depoda günceller
+  localStorage.setItem("theme-color", themeButton.innerText);
+  themeButton.innerText = document.body.classList.contains("light-mode")
+    ? "dark_mode"
+    : "light_mode";
+  const defaultText = `
+    <div class="default-text">
+    <h1> ChatGPT Clone </h1>
+    </div>`;
+  chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
+  //sayfayı sohbetin en altına kaydırır.
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
+};
+
+loadDataFromLocalStorage();
 
 const createElement = (html, className) => {
   const chatDiv = document.createElement("div");
@@ -41,6 +63,7 @@ const getChatResponse = async (incomingChatDiv) => {
   incomingChatDiv.querySelector(".typing-animation").remove();
   incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  localStorage.setItem("all-chats", chatContainer.innerHTML);
 };
 
 const showTypingAnimation = () => {
@@ -65,7 +88,7 @@ const showTypingAnimation = () => {
 
 const handleOutGoingChat = () => {
   userText = chatInput.value.trim(); // chatInput değerini alır
-  //console.log(userText)
+
   if (!userText) return; //chatInput içi boş ise çalışmasın.
   const html = ` <div class="chat-content">
     <div class="chat-details">
@@ -77,15 +100,38 @@ const handleOutGoingChat = () => {
 </div>`;
   const outgoingChatDiv = createElement(html, "outgoing");
   outgoingChatDiv.querySelector("p").textContent = userText;
-  //document.querySelector(".default-text")?.remove();
+  document.querySelector(".default-text")?.remove();
   chatContainer.appendChild(outgoingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
   setTimeout(showTypingAnimation, 500);
+ 
 };
 
 themeButton.addEventListener("click", () => {
   document.body.classList.toggle("light-mode");
+  localStorage.setItem("theme-color", themeButton.innerText);
+  themeButton.innerText = document.body.classList.contains("light-mode")
+    ? "dark_mode"
+    : "light_mode";
 });
+
+deleteButton.addEventListener("click", () => {
+  if (confirm("Tüm sohbeti silmek istediğinizden emin misiniz?")) {
+    localStorage.removeItem("all-chats");
+    loadDataFromLocalStorage();
+  }
+});
+
+chatInput.addEventListener("input", ()=>{
+  chatInput.style.height = `${initialHeight}px`
+  chatInput.style.height = `${chatInput.scrollHeight}px`
+})
+
+chatInput.addEventListener("keydown",(e)=>{
+  if(e.key === "Enter"){
+    e.preventDefault()
+    handleOutGoingChat()
+  }
+})
+
 sendButton.addEventListener("click", handleOutGoingChat);
-
-
