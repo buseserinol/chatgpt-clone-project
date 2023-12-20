@@ -103,6 +103,7 @@ const handleOutGoingChat = () => {
   document.querySelector(".default-text")?.remove();
   chatContainer.appendChild(outgoingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  chatInput.value = "";
   setTimeout(showTypingAnimation, 500);
  
 };
